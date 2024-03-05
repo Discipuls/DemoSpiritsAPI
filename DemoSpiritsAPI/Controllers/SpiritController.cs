@@ -21,35 +21,69 @@ namespace DemoSpiritsAPI.Controllers
         [HttpGet(Name = "GetAllSpirits")]
         public IActionResult GetAll()
         {
-            return Ok(_spiritService.GetAll());
+            List<GetSpiritBasicsDTO> spirits = [];
+            try
+            {
+                spirits = _spiritService.GetAll();
+            }catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+            return Ok(spirits);
         }
 
         [HttpGet("{id}", Name = "GetSpiritById")]
         public IActionResult Get(int id)
         {
-            return Ok(_spiritService.Get(id));
+            GetSpiritDTO getSpiritDTO = null;
+            try
+            {
+                getSpiritDTO = _spiritService.Get(id);
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok(getSpiritDTO);
         }
 
         [HttpDelete("{id}", Name = "DeleteSpirit")]
         public IActionResult Delete(int id)
         {
-            _spiritService.Delete(id);
-            return Ok();
+
+            var result = _spiritService.Delete(id);
+
+            if(result.Exception == null)
+            {
+                return Ok();
+            }
+
+            return BadRequest(result.Exception.Message);
 
         }
 
         [HttpPost(Name = "CreateSpirit")]
         public IActionResult Create([FromBody] CreateSpiritDTO createSpiritDTO)
-        {
-            _spiritService.Create(createSpiritDTO);
-            return Ok();
+        { 
+          
+            var result =  _spiritService.Create(createSpiritDTO);
+            if(result.Exception == null)
+            {
+                return Ok();
+            }
+
+            return BadRequest(result.Exception.Message);
         }
 
         [HttpPut(Name = "UpdateSpirit")]
         public IActionResult Update([FromBody] UpdateSpiritDTO updateSpiritDTO)
         {
-            _spiritService.Update(updateSpiritDTO);
-            return Ok();
+
+            var result = _spiritService.Update(updateSpiritDTO);
+            if(result.Exception == null)
+            {
+                return Ok();
+            }
+
+            return BadRequest(result.Exception.Message);
         }
     }
 }

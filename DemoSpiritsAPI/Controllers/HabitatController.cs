@@ -31,23 +31,35 @@ namespace DemoSpiritsAPI.Controllers
         [HttpDelete("{id}", Name = "DeleteHabitat")]
         public IActionResult Delete(int id)
         {
-            _habitatService.Delete(id);
-            return Ok();
+            var result = _habitatService.Delete(id);
+            if(result.Exception == null)
+            {
+                return Ok();
+            }
+            return BadRequest(result.Exception.Message);
 
         }
 
         [HttpPost(Name = "CreateHabitat")]
         public IActionResult Create([FromBody]CreateHabitatDTO createHabitatDTO)
         {
-            _habitatService.Create(createHabitatDTO);
-            return Ok();
+            var result = _habitatService.Create(createHabitatDTO);
+            if(result.Exception == null)
+            {
+                return Ok();
+            }
+            return BadRequest(result.Exception.Message);
         }
 
         [HttpPut(Name = "UpdateHabitat")]
         public IActionResult Update([FromBody] UpdateHabitatDTO updateHabitatDTO)
         {
-            _habitatService.Update(updateHabitatDTO);
-            return Ok();
+            var result = _habitatService.Update(updateHabitatDTO);
+            if(result.Exception == null)
+            {
+                return Ok();
+            }
+            return BadRequest(result.Exception.Message);
         }
     }
 }

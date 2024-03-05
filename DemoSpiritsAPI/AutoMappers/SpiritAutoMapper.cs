@@ -10,6 +10,7 @@ namespace DemoSpiritsAPI.AutoMappers
             CreateMap<CreateSpiritDTO, Spirit>();
             CreateMap<UpdateSpiritDTO, Spirit>();
             CreateMap<GetSpiritDTO, Spirit>().ReverseMap();
+            CreateMap<GetSpiritBasicsDTO, Spirit>().ReverseMap();
         }
     }
 }

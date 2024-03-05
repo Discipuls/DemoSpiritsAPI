@@ -19,6 +19,7 @@ namespace DemoSpiritsAPI.Servicies
         public async Task Create(CreateHabitatDTO createHabitatDTO)
         {
             Habitat habitat = _mapper.Map<Habitat>(createHabitatDTO);
+            habitat.LastUpdated = DateTime.Now;
             _dbContext.Habitats.Add(habitat);
             habitat.MarkerLocation.Habitat = habitat;
 
@@ -27,29 +28,32 @@ namespace DemoSpiritsAPI.Servicies
 
         public async Task Delete(int id)
         {
+            //Implement soft delete
             var habitat = _dbContext.Habitats.Include(x=>x.Border).Where(x=>x.Id == id).FirstOrDefault();
             _dbContext.BorderPoints.RemoveRange(habitat.Border);
             _dbContext.Habitats.Remove(habitat);
             _dbContext.SaveChanges();
         }
 
-        public GetHabitatDTO Get(int id)
+        public GetHabitatDTO Get(int id)//TODO get spirits ids for DTO
         {
             Habitat habitat = _dbContext.Habitats
                 .Include(h => h.MarkerLocation)
                 .Include(h => h.Border)
+                .Include(h => h.Spirits)
                 .FirstOrDefault(h => h.Id == id);
 
 
 
             GetHabitatDTO getHabitatDTO = _mapper.Map<GetHabitatDTO>(habitat);
+            
             return getHabitatDTO;
         }
 
         public async Task Update(UpdateHabitatDTO updateHabitatDTO)
         {
             Habitat habitat = _mapper.Map<Habitat>(updateHabitatDTO);
-         //   habitat.MarkerLocation.Id = _dbContext.MarkerPoints.FirstOrDefault(p => p.Habitat.Id == habitat.Id).Id;
+            habitat.LastUpdated = DateTime.Now;
             _dbContext.Update(habitat);
             var border = _dbContext.BorderPoints.Where(x => x.Habitat.Id == updateHabitatDTO.Id);
             _dbContext.BorderPoints.RemoveRange(border);
@@ -61,9 +65,9 @@ namespace DemoSpiritsAPI.Servicies
             var newMarker = _mapper.Map<MarkerPoint>(updateHabitatDTO.MarkerLocation);
             newMarker.Habitat = habitat;
             _dbContext.MarkerPoints.Add(newMarker);
-            _dbContext.SaveChanges(); //TODO Complete
+            _dbContext.SaveChanges(); 
         }
-        public List<GetHabitatDTO> GetAll()
+        public List<GetHabitatDTO> GetAll() //TODO get spirits ids for DTO
         {
             var habitats = _dbContext.Habitats.Include(h => h.MarkerLocation).Include(h=>h.Border).ToList();
             List<GetHabitatDTO> getHabitatDTOs = habitats.Select(x => _mapper.Map<GetHabitatDTO>(x)).ToList();

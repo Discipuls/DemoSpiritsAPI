@@ -11,6 +11,6 @@ namespace DemoSpiritsAPI.DTOs.HabitatDTOs
         public List<GetGeoPointDTO> Border {  get; set; }
         public List<int> SpiritIds { get; set; }
         public string Name { get; set; }
-        public DateTime LastUpdated;
+        public DateTime LastUpdated { get; set; }
     }
 }

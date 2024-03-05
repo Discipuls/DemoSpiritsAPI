@@ -9,6 +9,6 @@ namespace DemoSpiritsAPI.Servicies.Interfaces
         public Task Update(UpdateSpiritDTO updateSpiritDTO);
         public Task Delete(int id);
         public GetSpiritDTO Get(int id);
-        public List<GetSpiritDTO> GetAll();
+        public List<GetSpiritBasicsDTO> GetAll();
     }
 }
