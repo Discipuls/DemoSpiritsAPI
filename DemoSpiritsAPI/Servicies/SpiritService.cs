@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using AutoMapper;
 using DemoSpiritsAPI.DTOs.SpiritDTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace DemoSpiritsAPI.Servicies
 {
@@ -22,6 +23,7 @@ namespace DemoSpiritsAPI.Servicies
         public async Task Create(CreateSpiritDTO createSpiritDTO)
         {
             Spirit spirit = _mapper.Map<Spirit>(createSpiritDTO);
+
          
             spirit.LastUpdated = DateTime.Now;
             _dbContext.Spirits.Add(spirit);
@@ -29,6 +31,9 @@ namespace DemoSpiritsAPI.Servicies
             spirit.CardImageName = "CardImage_" + spirit.Id.ToString() + "_.png";
             spirit.MarkerImageName = "MarkerImage_" + spirit.Id.ToString() + "_.png";
 
+            var relatedHabitats = _dbContext.Habitats.Where(h => createSpiritDTO.HabitatsIds.Contains(h.Id)).ToList();
+
+            spirit.Habitats = relatedHabitats;
             _dbContext.Spirits.Update(spirit);
             _dbContext.SaveChanges();
             try
@@ -82,9 +87,9 @@ namespace DemoSpiritsAPI.Servicies
             _dbContext.SaveChanges();
         }
 
-        public GetSpiritDTO Get(int id) // TODO Get spirits ids for DTO
+        public GetSpiritDTO Get(int id) 
         {
-            var spirit = _dbContext.Spirits.Find(id);
+            var spirit = _dbContext.Spirits.Include(s => s.Habitats).FirstOrDefault(s => s.Id == id);
             if(spirit == null)
             {
                 throw new Exception($"Spirit entity with id {id} not found");
@@ -92,27 +97,55 @@ namespace DemoSpiritsAPI.Servicies
             spirit.CardImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\" + spirit.CardImageName); 
             spirit.MarkerImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\" + spirit.MarkerImageName); 
             GetSpiritDTO getSpiritDTO = _mapper.Map<GetSpiritDTO>(spirit);
+
+            getSpiritDTO.HabitatsIds = spirit.Habitats.Select(h => h.Id).ToList();
+
             return getSpiritDTO;
         }
 
-        public List<GetSpiritBasicsDTO> GetAll() //TODO Get habitats ids for DTO
+        public List<GetSpiritBasicsDTO> GetAll()
         {
-            var spirit = _dbContext.Spirits.ToList();
-            List<GetSpiritBasicsDTO> getSpiritDTOs = spirit.Select(x => _mapper.Map<GetSpiritBasicsDTO>(x)).ToList();
+            var spirits = _dbContext.Spirits.Include(s => s.Habitats).ToList();
+            List<GetSpiritBasicsDTO> getSpiritDTOs = spirits.Select(x => _mapper.Map<GetSpiritBasicsDTO>(x)).ToList();
+
+            for(int i = 0;i < spirits.Count; i++)
+            {
+                getSpiritDTOs[i].HabitatsIds = spirits[i].Habitats.Select(h => h.Id).ToList();
+            }
+
             return getSpiritDTOs;
         }
 
         public async Task Update(UpdateSpiritDTO updateSpiritDTO)
         {
-            var tryGetSpirit = _dbContext.Spirits.Find(updateSpiritDTO.Id);
-            if (tryGetSpirit == null)
+            var spiritExists = _dbContext.Spirits.Any(s => s.Id == updateSpiritDTO.Id);
+            if (spiritExists == false)
             {
                 throw new Exception($"Spirit entity with id {updateSpiritDTO.Id} not found");
             }
-
-            Spirit spirit = _mapper.Map<Spirit>(updateSpiritDTO);
+            
+            var spirit = _mapper.Map<Spirit>(updateSpiritDTO);
             spirit.LastUpdated = DateTime.Now;
+            spirit.CardImageName = "CardImage_" + spirit.Id.ToString() + "_.png";
+            spirit.MarkerImageName = "MarkerImage_" + spirit.Id.ToString() + "_.png";
             _dbContext.Update(spirit);
+
+            var relatedHabitats = _dbContext.Habitats
+                .Where(h => h.Spirits.Contains(spirit))
+                .Include(h => h.Spirits)
+                .ToList();
+
+            foreach(var h in spirit.Habitats)
+            {
+                h.Spirits.Remove(spirit);
+            }
+            _dbContext.SaveChanges();
+            relatedHabitats = _dbContext.Habitats
+                .Where(h => updateSpiritDTO.HabitatsIds.Contains(h.Id))
+                .Include(h => h.Spirits)
+                .ToList();
+            spirit.Habitats = relatedHabitats;
+
             _dbContext.SaveChanges();
         }
     }

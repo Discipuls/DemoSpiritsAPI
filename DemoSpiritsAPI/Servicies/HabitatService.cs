@@ -35,7 +35,7 @@ namespace DemoSpiritsAPI.Servicies
             _dbContext.SaveChanges();
         }
 
-        public GetHabitatDTO Get(int id)//TODO get spirits ids for DTO
+        public GetHabitatDTO Get(int id)
         {
             Habitat habitat = _dbContext.Habitats
                 .Include(h => h.MarkerLocation)
@@ -47,6 +47,8 @@ namespace DemoSpiritsAPI.Servicies
 
             GetHabitatDTO getHabitatDTO = _mapper.Map<GetHabitatDTO>(habitat);
             
+            getHabitatDTO.SpiritIds = habitat.Spirits.Select(x => x.Id).ToList();
+
             return getHabitatDTO;
         }
 
@@ -67,10 +69,18 @@ namespace DemoSpiritsAPI.Servicies
             _dbContext.MarkerPoints.Add(newMarker);
             _dbContext.SaveChanges(); 
         }
-        public List<GetHabitatDTO> GetAll() //TODO get spirits ids for DTO
+        public List<GetHabitatDTO> GetAll()
         {
-            var habitats = _dbContext.Habitats.Include(h => h.MarkerLocation).Include(h=>h.Border).ToList();
+            var habitats = _dbContext.Habitats
+                .Include(h => h.MarkerLocation)
+                .Include(h=>h.Border)
+                .Include(h=>h.Spirits)
+                .ToList();
             List<GetHabitatDTO> getHabitatDTOs = habitats.Select(x => _mapper.Map<GetHabitatDTO>(x)).ToList();
+            for(int i = 0;i < habitats.Count;i++)
+            {
+                getHabitatDTOs[i].SpiritIds = habitats[i].Spirits.Select(x => x.Id).ToList();
+            }
             return getHabitatDTOs;
         }
 
