@@ -75,8 +75,8 @@ namespace DemoSpiritsAPI.Servicies
             }
             try
             {
-                File.Delete(spirit.CardImageName);
-                File.Delete(spirit.MarkerImageName);
+                File.Delete(".\\Resources\\Images\\" + spirit.CardImageName);
+                File.Delete(".\\Resources\\Images\\" + spirit.MarkerImageName);
             }catch(Exception ex)
             {
                 throw new Exception("Problems with deleting image resources");
@@ -128,6 +128,42 @@ namespace DemoSpiritsAPI.Servicies
             spirit.LastUpdated = DateTime.Now;
             spirit.CardImageName = "CardImage_" + spirit.Id.ToString() + "_.png";
             spirit.MarkerImageName = "MarkerImage_" + spirit.Id.ToString() + "_.png";
+
+
+            var oldCardImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\" + spirit.CardImageName);
+            var oldMarkerImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\" + spirit.MarkerImageName);
+
+            try
+            {
+                MemoryStream cardImageMS = new MemoryStream(spirit.CardImage);
+                Image cardImage = Image.FromStream(cardImageMS);
+                File.Delete(".\\Resources\\Images\\" + spirit.CardImageName);
+                cardImage.Save(".\\Resources\\Images\\" + spirit.CardImageName, ImageFormat.Png);
+            }
+            catch (Exception ex)
+            {
+                MemoryStream cardImageMS = new MemoryStream(oldCardImage);
+                Image cardImage = Image.FromStream(cardImageMS);
+                File.Delete(".\\Resources\\Images\\" + spirit.CardImageName);
+                cardImage.Save(".\\Resources\\Images\\" + spirit.CardImageName, ImageFormat.Png);
+            }
+
+            try
+            {
+                MemoryStream markerImageMS = new MemoryStream(spirit.MarkerImage);
+                Image markerImage = Image.FromStream(markerImageMS);
+                File.Delete(".\\Resources\\Images\\" + spirit.MarkerImageName);
+                markerImage.Save(".\\Resources\\Images\\" + spirit.MarkerImageName, ImageFormat.Png);
+            }
+            catch (Exception ex)
+            {
+
+                MemoryStream markerImageMS = new MemoryStream(oldMarkerImage);
+                Image markerImage = Image.FromStream(markerImageMS);
+                File.Delete(".\\Resources\\Images\\" + spirit.MarkerImageName);
+                markerImage.Save(".\\Resources\\Images\\" + spirit.MarkerImageName, ImageFormat.Png);
+            }
+
             _dbContext.Update(spirit);
 
             var relatedHabitats = _dbContext.Habitats
