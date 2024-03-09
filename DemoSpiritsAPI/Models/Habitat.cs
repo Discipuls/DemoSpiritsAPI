@@ -7,7 +7,6 @@ namespace DemoSpiritsAPI.Models
         public string? Name { get; set; }
         public List<Spirit>? Spirits { get; set; } = [];
         public List<BorderPoint>? Border { get; set; } = [];
-        public MarkerPoint? MarkerLocation { get; set; }
         public DateTime? LastUpdated { get; set; }
 
     }

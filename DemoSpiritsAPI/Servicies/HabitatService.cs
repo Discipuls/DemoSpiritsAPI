@@ -21,7 +21,6 @@ namespace DemoSpiritsAPI.Servicies
             Habitat habitat = _mapper.Map<Habitat>(createHabitatDTO);
             habitat.LastUpdated = DateTime.Now;
             _dbContext.Habitats.Add(habitat);
-            habitat.MarkerLocation.Habitat = habitat;
 
             _dbContext.SaveChanges();
         }
@@ -38,7 +37,6 @@ namespace DemoSpiritsAPI.Servicies
         public GetHabitatDTO Get(int id)
         {
             Habitat habitat = _dbContext.Habitats
-                .Include(h => h.MarkerLocation)
                 .Include(h => h.Border)
                 .Include(h => h.Spirits)
                 .FirstOrDefault(h => h.Id == id);
@@ -59,20 +57,12 @@ namespace DemoSpiritsAPI.Servicies
             _dbContext.Update(habitat);
             var border = _dbContext.BorderPoints.Where(x => x.Habitat.Id == updateHabitatDTO.Id);
             _dbContext.BorderPoints.RemoveRange(border);
-            var marker = _dbContext.MarkerPoints.Where(x => x.Habitat.Id == updateHabitatDTO.Id).FirstOrDefault();
-            if(marker != null)
-            {
-                _dbContext.MarkerPoints.Remove(marker);
-            }
-            var newMarker = _mapper.Map<MarkerPoint>(updateHabitatDTO.MarkerLocation);
-            newMarker.Habitat = habitat;
-            _dbContext.MarkerPoints.Add(newMarker);
+
             _dbContext.SaveChanges(); 
         }
         public List<GetHabitatDTO> GetAll()
         {
             var habitats = _dbContext.Habitats
-                .Include(h => h.MarkerLocation)
                 .Include(h=>h.Border)
                 .Include(h=>h.Spirits)
                 .ToList();

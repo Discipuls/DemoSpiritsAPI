@@ -1,4 +1,5 @@
-﻿using DemoSpiritsAPI.Models;
+﻿using DemoSpiritsAPI.DTOs.GeoPointDTOs;
+using DemoSpiritsAPI.Models;
 
 namespace DemoSpiritsAPI.DTOs.SpiritDTOs
 {
@@ -10,6 +11,8 @@ namespace DemoSpiritsAPI.DTOs.SpiritDTOs
         public List<SpiritType> Classification {  get; set; }
         public List<int> HabitatsIds {  get; set; }
         public DateTime LastUpdated {  get; set; }
+        public GetGeoPointDTO MarkerLocation { get; set; }
+
 
         public Byte[] CardImage {  get; set; }
         public Byte[] MarkerImage {  get; set; }

@@ -31,6 +31,12 @@ namespace DemoSpiritsAPI.Controllers
             return Ok(spirits);
         }
 
+/*        [HttpPost(Name = "SetupTestData")]
+        public IActionResult SetupTestData()
+        {
+            return Ok();
+        }*/
+
         [HttpGet("{id}", Name = "GetSpiritById")]
         public IActionResult Get(int id)
         {

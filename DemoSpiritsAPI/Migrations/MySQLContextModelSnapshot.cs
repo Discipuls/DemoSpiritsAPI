@@ -64,18 +64,18 @@ namespace DemoSpiritsAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("HabitatId")
-                        .HasColumnType("int");
-
                     b.Property<double?>("Latitude")
                         .HasColumnType("double");
 
                     b.Property<double?>("Longitude")
                         .HasColumnType("double");
 
+                    b.Property<int>("SpiritId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("HabitatId")
+                    b.HasIndex("SpiritId")
                         .IsUnique();
 
                     b.ToTable("MarkerPoints");
@@ -136,13 +136,13 @@ namespace DemoSpiritsAPI.Migrations
 
             modelBuilder.Entity("DemoSpiritsAPI.Models.MarkerPoint", b =>
                 {
-                    b.HasOne("DemoSpiritsAPI.Models.Habitat", "Habitat")
+                    b.HasOne("DemoSpiritsAPI.Models.Spirit", "spirit")
                         .WithOne("MarkerLocation")
-                        .HasForeignKey("DemoSpiritsAPI.Models.MarkerPoint", "HabitatId")
+                        .HasForeignKey("DemoSpiritsAPI.Models.MarkerPoint", "SpiritId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Habitat");
+                    b.Navigation("spirit");
                 });
 
             modelBuilder.Entity("HabitatSpirit", b =>
@@ -163,7 +163,10 @@ namespace DemoSpiritsAPI.Migrations
             modelBuilder.Entity("DemoSpiritsAPI.Models.Habitat", b =>
                 {
                     b.Navigation("Border");
+                });
 
+            modelBuilder.Entity("DemoSpiritsAPI.Models.Spirit", b =>
+                {
                     b.Navigation("MarkerLocation");
                 });
 #pragma warning restore 612, 618

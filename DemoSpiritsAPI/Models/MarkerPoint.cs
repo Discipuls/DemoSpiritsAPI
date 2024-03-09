@@ -5,7 +5,7 @@ namespace DemoSpiritsAPI.Models
     public class MarkerPoint : GeoPoint
     {
 
-        public Habitat Habitat { get; set; } = null!;
+        public Spirit spirit{ get; set; } = null!;
 
     }
 }

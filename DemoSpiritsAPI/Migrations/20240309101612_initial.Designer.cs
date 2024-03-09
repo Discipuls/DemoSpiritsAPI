@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoSpiritsAPI.Migrations
 {
     [DbContext(typeof(MySQLContext))]
-    [Migration("20240229143424_Initial7")]
-    partial class Initial7
+    [Migration("20240309101612_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,9 +50,6 @@ namespace DemoSpiritsAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("HabitatId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("LastUpdated")
                         .HasColumnType("datetime(6)");
 
@@ -60,9 +57,6 @@ namespace DemoSpiritsAPI.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HabitatId")
-                        .IsUnique();
 
                     b.ToTable("Habitats");
                 });
@@ -79,7 +73,13 @@ namespace DemoSpiritsAPI.Migrations
                     b.Property<double?>("Longitude")
                         .HasColumnType("double");
 
+                    b.Property<int>("SpiritId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SpiritId")
+                        .IsUnique();
 
                     b.ToTable("MarkerPoints");
                 });
@@ -137,13 +137,15 @@ namespace DemoSpiritsAPI.Migrations
                     b.Navigation("Habitat");
                 });
 
-            modelBuilder.Entity("DemoSpiritsAPI.Models.Habitat", b =>
+            modelBuilder.Entity("DemoSpiritsAPI.Models.MarkerPoint", b =>
                 {
-                    b.HasOne("DemoSpiritsAPI.Models.MarkerPoint", "MarkerLocation")
-                        .WithOne("Habitat")
-                        .HasForeignKey("DemoSpiritsAPI.Models.Habitat", "HabitatId");
+                    b.HasOne("DemoSpiritsAPI.Models.Spirit", "spirit")
+                        .WithOne("MarkerLocation")
+                        .HasForeignKey("DemoSpiritsAPI.Models.MarkerPoint", "SpiritId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("MarkerLocation");
+                    b.Navigation("spirit");
                 });
 
             modelBuilder.Entity("HabitatSpirit", b =>
@@ -166,10 +168,9 @@ namespace DemoSpiritsAPI.Migrations
                     b.Navigation("Border");
                 });
 
-            modelBuilder.Entity("DemoSpiritsAPI.Models.MarkerPoint", b =>
+            modelBuilder.Entity("DemoSpiritsAPI.Models.Spirit", b =>
                 {
-                    b.Navigation("Habitat")
-                        .IsRequired();
+                    b.Navigation("MarkerLocation");
                 });
 #pragma warning restore 612, 618
         }

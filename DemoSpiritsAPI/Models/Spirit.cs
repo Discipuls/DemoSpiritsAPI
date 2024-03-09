@@ -13,6 +13,9 @@ namespace DemoSpiritsAPI.Models
         public List<SpiritType>? Classification { get; set; } = [];
         public List<Habitat>? Habitats { get; set; } = [];
 
+        public MarkerPoint? MarkerLocation { get; set; }
+
+
         [JsonIgnore]
         public string? CardImageName { get; set; }
         [JsonIgnore]

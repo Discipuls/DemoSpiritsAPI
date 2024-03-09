@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,12 +7,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DemoSpiritsAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Habitats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdated = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Habitats", x => x.Id);
+                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -29,7 +46,8 @@ namespace DemoSpiritsAPI.Migrations
                     CardImageName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MarkerImageName = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdated = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,40 +56,23 @@ namespace DemoSpiritsAPI.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "GeoPoints",
+                name: "BorderPoints",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Latitude = table.Column<double>(type: "double", nullable: false),
-                    Longitude = table.Column<double>(type: "double", nullable: false),
-                    HabitatId = table.Column<int>(type: "int", nullable: true)
+                    HabitatId = table.Column<int>(type: "int", nullable: true),
+                    Latitude = table.Column<double>(type: "double", nullable: true),
+                    Longitude = table.Column<double>(type: "double", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GeoPoints", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Habitats",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    MarkerLocationId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Habitats", x => x.Id);
+                    table.PrimaryKey("PK_BorderPoints", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Habitats_GeoPoints_MarkerLocationId",
-                        column: x => x.MarkerLocationId,
-                        principalTable: "GeoPoints",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_BorderPoints_Habitats_HabitatId",
+                        column: x => x.HabitatId,
+                        principalTable: "Habitats",
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -100,14 +101,31 @@ namespace DemoSpiritsAPI.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.InsertData(
-                table: "Spirits",
-                columns: new[] { "Id", "CardImageName", "Classification", "Description", "MarkerImageName", "Name" },
-                values: new object[] { 1, null, null, null, null, null });
+            migrationBuilder.CreateTable(
+                name: "MarkerPoints",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    SpiritId = table.Column<int>(type: "int", nullable: false),
+                    Latitude = table.Column<double>(type: "double", nullable: true),
+                    Longitude = table.Column<double>(type: "double", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MarkerPoints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MarkerPoints_Spirits_SpiritId",
+                        column: x => x.SpiritId,
+                        principalTable: "Spirits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GeoPoints_HabitatId",
-                table: "GeoPoints",
+                name: "IX_BorderPoints_HabitatId",
+                table: "BorderPoints",
                 column: "HabitatId");
 
             migrationBuilder.CreateIndex(
@@ -116,36 +134,29 @@ namespace DemoSpiritsAPI.Migrations
                 column: "SpiritsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Habitats_MarkerLocationId",
-                table: "Habitats",
-                column: "MarkerLocationId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_GeoPoints_Habitats_HabitatId",
-                table: "GeoPoints",
-                column: "HabitatId",
-                principalTable: "Habitats",
-                principalColumn: "Id");
+                name: "IX_MarkerPoints_SpiritId",
+                table: "MarkerPoints",
+                column: "SpiritId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_GeoPoints_Habitats_HabitatId",
-                table: "GeoPoints");
+            migrationBuilder.DropTable(
+                name: "BorderPoints");
 
             migrationBuilder.DropTable(
                 name: "HabitatSpirit");
 
             migrationBuilder.DropTable(
-                name: "Spirits");
+                name: "MarkerPoints");
 
             migrationBuilder.DropTable(
                 name: "Habitats");
 
             migrationBuilder.DropTable(
-                name: "GeoPoints");
+                name: "Spirits");
         }
     }
 }
