@@ -31,11 +31,16 @@ namespace DemoSpiritsAPI.Controllers
             return Ok(spirits);
         }
 
-/*        [HttpPost(Name = "SetupTestData")]
+        [HttpPatch(Name = "SetupTestData")]
         public IActionResult SetupTestData()
         {
-            return Ok();
-        }*/
+            var result = _spiritService.SetupTestData();
+            if (result.Exception == null)
+            {
+                return Ok();
+            }
+            return BadRequest(result.Exception.Message);
+        }
 
         [HttpGet("{id}", Name = "GetSpiritById")]
         public IActionResult Get(int id)

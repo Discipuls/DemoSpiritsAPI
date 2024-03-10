@@ -61,5 +61,16 @@ namespace DemoSpiritsAPI.Controllers
             }
             return BadRequest(result.Exception.Message);
         }
+
+        [HttpPatch(Name = "SetupHabitatTestData")]
+        public IActionResult SetupTestData()
+        {
+            var result = _habitatService.SetupTestData();
+            if (result.Exception == null)
+            {
+                return Ok();
+            }
+            return BadRequest(result.Exception.Message);
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace DemoSpiritsAPI.Servicies.Interfaces
         public Task Delete(int id);
         public GetHabitatDTO Get(int id);
         public List<GetHabitatDTO> GetAll();
+        public Task SetupTestData();
+
     }
 }

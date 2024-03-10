@@ -10,5 +10,8 @@ namespace DemoSpiritsAPI.Servicies.Interfaces
         public Task Delete(int id);
         public GetSpiritDTO Get(int id);
         public List<GetSpiritBasicsDTO> GetAll();
+
+        public Task SetupTestData();
+
     }
 }
