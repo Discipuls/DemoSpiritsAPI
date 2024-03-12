@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DemoSpiritsAPI.AutoMappers;
-using DemoSpiritsAPI.DTOs.SpiritDTOs;
-using DemoSpiritsAPI.Models;
+using SpiritsClassLibrary.DTOs.SpiritDTOs;
+using SpiritsClassLibrary.Models;
 using DemoSpiritsAPI.Servicies.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

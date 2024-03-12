@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using DemoSpiritsAPI.DTOs.GeoPointDTOs;
-using DemoSpiritsAPI.DTOs.HabitatDTOs;
-using DemoSpiritsAPI.Models;
+using SpiritsClassLibrary.DTOs.GeoPointDTOs;
+using SpiritsClassLibrary.DTOs.HabitatDTOs;
+using SpiritsClassLibrary.Models;
 
 namespace DemoSpiritsAPI.AutoMappers
 {

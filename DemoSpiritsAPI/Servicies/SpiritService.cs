@@ -1,14 +1,14 @@
 ﻿using DemoSpiritsAPI.EntiryFramework.Contexts;
-using DemoSpiritsAPI.Models;
+using SpiritsClassLibrary.Models;
 using DemoSpiritsAPI.Servicies.Interfaces;
 using System.Drawing.Imaging;
 using System.Drawing;
 using System.IO;
 using AutoMapper;
-using DemoSpiritsAPI.DTOs.SpiritDTOs;
+using SpiritsClassLibrary.DTOs.SpiritDTOs;
 using Microsoft.EntityFrameworkCore;
-using DemoSpiritsAPI.DTOs.HabitatDTOs;
-using DemoSpiritsAPI.DTOs.GeoPointDTOs;
+using SpiritsClassLibrary.DTOs.HabitatDTOs;
+using SpiritsClassLibrary.DTOs.GeoPointDTOs;
 
 namespace DemoSpiritsAPI.Servicies
 {

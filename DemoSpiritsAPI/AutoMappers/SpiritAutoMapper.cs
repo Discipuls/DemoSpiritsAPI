@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using DemoSpiritsAPI.DTOs.SpiritDTOs;
-using DemoSpiritsAPI.Models;
+using SpiritsClassLibrary.DTOs.SpiritDTOs;
+using SpiritsClassLibrary.Models;
 
 namespace DemoSpiritsAPI.AutoMappers
 {

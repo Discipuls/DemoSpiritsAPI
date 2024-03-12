@@ -22,7 +22,7 @@ namespace DemoSpiritsAPI.Migrations
                 .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("DemoSpiritsAPI.Models.BorderPoint", b =>
+            modelBuilder.Entity("SpiritsClassLibrary.Models.BorderPoint", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,7 +44,7 @@ namespace DemoSpiritsAPI.Migrations
                     b.ToTable("BorderPoints");
                 });
 
-            modelBuilder.Entity("DemoSpiritsAPI.Models.Habitat", b =>
+            modelBuilder.Entity("SpiritsClassLibrary.Models.Habitat", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,7 +61,7 @@ namespace DemoSpiritsAPI.Migrations
                     b.ToTable("Habitats");
                 });
 
-            modelBuilder.Entity("DemoSpiritsAPI.Models.MarkerPoint", b =>
+            modelBuilder.Entity("SpiritsClassLibrary.Models.MarkerPoint", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,7 +84,7 @@ namespace DemoSpiritsAPI.Migrations
                     b.ToTable("MarkerPoints");
                 });
 
-            modelBuilder.Entity("DemoSpiritsAPI.Models.Spirit", b =>
+            modelBuilder.Entity("SpiritsClassLibrary.Models.Spirit", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -128,20 +128,20 @@ namespace DemoSpiritsAPI.Migrations
                     b.ToTable("HabitatSpirit");
                 });
 
-            modelBuilder.Entity("DemoSpiritsAPI.Models.BorderPoint", b =>
+            modelBuilder.Entity("SpiritsClassLibrary.Models.BorderPoint", b =>
                 {
-                    b.HasOne("DemoSpiritsAPI.Models.Habitat", "Habitat")
+                    b.HasOne("SpiritsClassLibrary.Models.Habitat", "Habitat")
                         .WithMany("Border")
                         .HasForeignKey("HabitatId");
 
                     b.Navigation("Habitat");
                 });
 
-            modelBuilder.Entity("DemoSpiritsAPI.Models.MarkerPoint", b =>
+            modelBuilder.Entity("SpiritsClassLibrary.Models.MarkerPoint", b =>
                 {
-                    b.HasOne("DemoSpiritsAPI.Models.Spirit", "spirit")
+                    b.HasOne("SpiritsClassLibrary.Models.Spirit", "spirit")
                         .WithOne("MarkerLocation")
-                        .HasForeignKey("DemoSpiritsAPI.Models.MarkerPoint", "SpiritId")
+                        .HasForeignKey("SpiritsClassLibrary.Models.MarkerPoint", "SpiritId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -150,25 +150,25 @@ namespace DemoSpiritsAPI.Migrations
 
             modelBuilder.Entity("HabitatSpirit", b =>
                 {
-                    b.HasOne("DemoSpiritsAPI.Models.Habitat", null)
+                    b.HasOne("SpiritsClassLibrary.Models.Habitat", null)
                         .WithMany()
                         .HasForeignKey("HabitatsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DemoSpiritsAPI.Models.Spirit", null)
+                    b.HasOne("SpiritsClassLibrary.Models.Spirit", null)
                         .WithMany()
                         .HasForeignKey("SpiritsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DemoSpiritsAPI.Models.Habitat", b =>
+            modelBuilder.Entity("SpiritsClassLibrary.Models.Habitat", b =>
                 {
                     b.Navigation("Border");
                 });
 
-            modelBuilder.Entity("DemoSpiritsAPI.Models.Spirit", b =>
+            modelBuilder.Entity("SpiritsClassLibrary.Models.Spirit", b =>
                 {
                     b.Navigation("MarkerLocation");
                 });

@@ -1,6 +1,6 @@
 ﻿
-using DemoSpiritsAPI.DTOs.HabitatDTOs;
-using DemoSpiritsAPI.Models;
+using SpiritsClassLibrary.DTOs.HabitatDTOs;
+using SpiritsClassLibrary.Models;
 using DemoSpiritsAPI.Servicies.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

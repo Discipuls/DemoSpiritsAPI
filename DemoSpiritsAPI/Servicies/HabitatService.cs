@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using DemoSpiritsAPI.DTOs.GeoPointDTOs;
-using DemoSpiritsAPI.DTOs.HabitatDTOs;
+using SpiritsClassLibrary.DTOs.GeoPointDTOs;
+using SpiritsClassLibrary.DTOs.HabitatDTOs;
 using DemoSpiritsAPI.EntiryFramework.Contexts;
-using DemoSpiritsAPI.Models;
+using SpiritsClassLibrary.Models;
 using DemoSpiritsAPI.Servicies.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Security.AccessControl;

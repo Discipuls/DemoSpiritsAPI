@@ -1,5 +1,5 @@
 using DemoSpiritsAPI.EntiryFramework.Contexts;
-using DemoSpiritsAPI.Models;
+using SpiritsClassLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

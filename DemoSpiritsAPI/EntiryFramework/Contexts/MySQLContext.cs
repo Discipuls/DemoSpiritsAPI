@@ -1,4 +1,4 @@
-﻿using DemoSpiritsAPI.Models;
+﻿using SpiritsClassLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DemoSpiritsAPI.EntiryFramework.Contexts
