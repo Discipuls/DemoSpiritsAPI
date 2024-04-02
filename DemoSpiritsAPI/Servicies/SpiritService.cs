@@ -215,7 +215,7 @@ namespace DemoSpiritsAPI.Servicies
                 Classification = new List<SpiritType> { SpiritType.Forest },
                 CardImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\TestData\\" + "zazoukat.png"),
                 MarkerImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\TestData\\" + "zazouka.png"),
-                HabitatsIds = new List<int>{ _dbContext.Habitats.Where(h => h.Name == "Polygon1").First().Id },
+                HabitatsIds = new List<int>{ _dbContext.Habitats.Where(h => h.Name == "Мінская вобласць").First().Id },
                 MarkerLocation = new CreateGeoPointDTO { Latitude = 27.056924 , Longitude= 53.967102 }
             });
 
@@ -226,7 +226,7 @@ namespace DemoSpiritsAPI.Servicies
                 Classification = new List<SpiritType> { SpiritType.Forest },
                 CardImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\TestData\\" + "adnaroht.png"),
                 MarkerImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\TestData\\" + "adnaroh.png"),
-                HabitatsIds = new List<int> { _dbContext.Habitats.Where(h => h.Name == "Polygon2").First().Id },
+                HabitatsIds = new List<int> { _dbContext.Habitats.Where(h => h.Name == "Мінская вобласць").First().Id },
                 MarkerLocation = new CreateGeoPointDTO { Latitude = 27.090737, Longitude = 53.151117 }
             });
 
@@ -238,7 +238,7 @@ namespace DemoSpiritsAPI.Servicies
                 Classification = new List<SpiritType> { SpiritType.Water },
                 CardImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\TestData\\" + "aziarnizyt.png"),
                 MarkerImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\TestData\\" + "aziarnizy.png"),
-                HabitatsIds = new List<int> { _dbContext.Habitats.Where(h => h.Name == "Polygon3").First().Id },
+                HabitatsIds = new List<int> { _dbContext.Habitats.Where(h => h.Name == "Мінская вобласць").First().Id },
                 MarkerLocation = new CreateGeoPointDTO { Latitude = 27.097120, Longitude = 53.154631 }
             });
 
@@ -250,7 +250,7 @@ namespace DemoSpiritsAPI.Servicies
                 Classification = new List<SpiritType> { SpiritType.Home },
                 CardImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\TestData\\" + "apivient.png"),
                 MarkerImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\TestData\\" + "apivien.png"),
-                HabitatsIds = new List<int> { _dbContext.Habitats.Where(h => h.Name == "Polygon1").First().Id, _dbContext.Habitats.Where(h => h.Name == "Polygon3").First().Id },
+                HabitatsIds = new List<int> { _dbContext.Habitats.Where(h => h.Name == "Мінская вобласць").First().Id },
                 MarkerLocation = new CreateGeoPointDTO { Latitude = 26.907148, Longitude = 54.855610 }
             });
 
@@ -261,8 +261,8 @@ namespace DemoSpiritsAPI.Servicies
                 Classification = new List<SpiritType> { SpiritType.Forest },
                 CardImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\TestData\\" + "liesavikt.png"),
                 MarkerImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\TestData\\" + "liesavik.png"),
-                HabitatsIds = new List<int> { _dbContext.Habitats.Where(h => h.Name == "Polygon1").First().Id, _dbContext.Habitats.Where(h => h.Name == "Polygon3").First().Id },
-                MarkerLocation = new CreateGeoPointDTO { Latitude = 26.907148, Longitude = 54.855610 }
+                HabitatsIds = new List<int> { _dbContext.Habitats.Where(h => h.Name == "Гродненская вобласць").First().Id },
+                MarkerLocation = new CreateGeoPointDTO { Latitude = 24.667601, Longitude = 53.685770 }
             });
 
             foreach (var spirit in CreateSpiritsDTOs)
