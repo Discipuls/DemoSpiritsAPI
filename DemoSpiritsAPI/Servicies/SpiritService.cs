@@ -1,14 +1,15 @@
 ﻿using DemoSpiritsAPI.EntiryFramework.Contexts;
 using SpiritsClassLibrary.Models;
 using DemoSpiritsAPI.Servicies.Interfaces;
-using System.Drawing.Imaging;
-using System.Drawing;
+/*using System.Drawing.Imaging;
+using System.Drawing;*/
 using System.IO;
 using AutoMapper;
 using SpiritsClassLibrary.DTOs.SpiritDTOs;
 using Microsoft.EntityFrameworkCore;
 using SpiritsClassLibrary.DTOs.HabitatDTOs;
 using SpiritsClassLibrary.DTOs.GeoPointDTOs;
+using SixLabors.ImageSharp;
 
 namespace DemoSpiritsAPI.Servicies
 {
@@ -38,30 +39,30 @@ namespace DemoSpiritsAPI.Servicies
             spirit.Habitats = relatedHabitats;
             _dbContext.Spirits.Update(spirit);
             _dbContext.SaveChanges();
-            try
+/*            try
             {
                 MemoryStream cardImageMS = new MemoryStream(spirit.CardImage);
-                Image cardImage = Image.FromStream(cardImageMS);
-                cardImage.Save(".\\Resources\\Images\\" + spirit.CardImageName, ImageFormat.Png);
-            }catch (Exception ex)
+                Image cardImage = Image.Load(cardImageMS);
+                cardImage.Save(".\\Resources\\Images\\" + spirit.CardImageName);
+        }catch (Exception ex)
             {
                 _dbContext.Spirits.Remove(spirit);
                 _dbContext.SaveChanges();
                 throw new Exception("Problems with card Image");
-            }
+            }*/
 
-            try
+          /*  try
             {
                 MemoryStream markerImageMS = new MemoryStream(spirit.MarkerImage);
-                Image markerImage = Image.FromStream(markerImageMS);
-                markerImage.Save(".\\Resources\\Images\\" + spirit.MarkerImageName, ImageFormat.Png);
+                Image markerImage = Image.Load(markerImageMS);
+                markerImage.Save(".\\Resources\\Images\\" + spirit.MarkerImageName);
             }
             catch (Exception ex)
             {
                 _dbContext.Spirits.Remove(spirit);
                 _dbContext.SaveChanges();
                 throw new Exception("Problems with marker Image");
-            }
+            }*/
 
 
 
@@ -75,7 +76,7 @@ namespace DemoSpiritsAPI.Servicies
             {
                 throw new Exception($"Spirit entity with id {id} not found");
             }
-            try
+/*            try
             {
                 File.Delete(".\\Resources\\Images\\" + spirit.CardImageName);
                 File.Delete(".\\Resources\\Images\\" + spirit.MarkerImageName);
@@ -84,7 +85,7 @@ namespace DemoSpiritsAPI.Servicies
                 throw new Exception("Problems with deleting image resources");
             }
 
-            System.IO.File.Delete(spirit.CardImageName);
+            System.IO.File.Delete(spirit.CardImageName);*/
             _dbContext.Spirits.Remove(spirit);
             _dbContext.SaveChanges();
         }
@@ -99,8 +100,8 @@ namespace DemoSpiritsAPI.Servicies
             {
                 throw new Exception($"Spirit entity with id {id} not found");
             }
-            spirit.CardImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\" + spirit.CardImageName); 
-            spirit.MarkerImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\" + spirit.MarkerImageName); 
+/*            spirit.CardImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\" + spirit.CardImageName); 
+            spirit.MarkerImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\" + spirit.MarkerImageName); */
             GetSpiritDTO getSpiritDTO = _mapper.Map<GetSpiritDTO>(spirit);
 
             getSpiritDTO.HabitatsIds = spirit.Habitats.Select(h => h.Id).ToList();
@@ -136,41 +137,41 @@ namespace DemoSpiritsAPI.Servicies
             spirit.LastUpdated = DateTime.Now;
             spirit.CardImageName = "CardImage_" + spirit.Id.ToString() + "_.png";
             spirit.MarkerImageName = "MarkerImage_" + spirit.Id.ToString() + "_.png";
-
+/*
 
             var oldCardImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\" + spirit.CardImageName);
             var oldMarkerImage = System.IO.File.ReadAllBytes(".\\Resources\\Images\\" + spirit.MarkerImageName);
-
-            try
+*/
+        /*    try
             {
                 MemoryStream cardImageMS = new MemoryStream(spirit.CardImage);
-                Image cardImage = Image.FromStream(cardImageMS);
+                Image cardImage = Image.Load(cardImageMS);
                 File.Delete(".\\Resources\\Images\\" + spirit.CardImageName);
-                cardImage.Save(".\\Resources\\Images\\" + spirit.CardImageName, ImageFormat.Png);
+                cardImage.Save(".\\Resources\\Images\\" + spirit.CardImageName);
             }
             catch (Exception ex)
             {
                 MemoryStream cardImageMS = new MemoryStream(oldCardImage);
-                Image cardImage = Image.FromStream(cardImageMS);
+                Image cardImage = Image.Load(cardImageMS);
                 File.Delete(".\\Resources\\Images\\" + spirit.CardImageName);
-                cardImage.Save(".\\Resources\\Images\\" + spirit.CardImageName, ImageFormat.Png);
+                cardImage.Save(".\\Resources\\Images\\" + spirit.CardImageName);
             }
 
             try
             {
                 MemoryStream markerImageMS = new MemoryStream(spirit.MarkerImage);
-                Image markerImage = Image.FromStream(markerImageMS);
+                Image markerImage = Image.Load(markerImageMS);
                 File.Delete(".\\Resources\\Images\\" + spirit.MarkerImageName);
-                markerImage.Save(".\\Resources\\Images\\" + spirit.MarkerImageName, ImageFormat.Png);
+                markerImage.Save(".\\Resources\\Images\\" + spirit.MarkerImageName);
             }
             catch (Exception ex)
             {
 
                 MemoryStream markerImageMS = new MemoryStream(oldMarkerImage);
-                Image markerImage = Image.FromStream(markerImageMS);
+                Image markerImage = Image.Load(markerImageMS);
                 File.Delete(".\\Resources\\Images\\" + spirit.MarkerImageName);
-                markerImage.Save(".\\Resources\\Images\\" + spirit.MarkerImageName, ImageFormat.Png);
-            }
+                markerImage.Save(".\\Resources\\Images\\" + spirit.MarkerImageName);
+            }*/
 
             _dbContext.Update(spirit);
 

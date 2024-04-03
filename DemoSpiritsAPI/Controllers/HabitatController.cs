@@ -3,6 +3,8 @@ using SpiritsClassLibrary.DTOs.HabitatDTOs;
 using SpiritsClassLibrary.Models;
 using DemoSpiritsAPI.Servicies.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Google.Apis.Auth;
+using Newtonsoft.Json.Linq;
 
 namespace DemoSpiritsAPI.Controllers
 {
@@ -11,10 +13,13 @@ namespace DemoSpiritsAPI.Controllers
     public class HabitatController : Controller
     {
         private IHabitatService _habitatService;
+        private IGoogleAuthService _googleAuthService;
 
-        public HabitatController(IHabitatService habitatService)
+
+        public HabitatController(IHabitatService habitatService, IGoogleAuthService googleAuthService)
         {
             _habitatService = habitatService;
+            _googleAuthService = googleAuthService;
         }
         [HttpGet(Name = "GetAllHabitats")]
         public IActionResult GetAll()
@@ -31,6 +36,12 @@ namespace DemoSpiritsAPI.Controllers
         [HttpDelete("{id}", Name = "DeleteHabitat")]
         public IActionResult Delete(int id)
         {
+            var authResult = _googleAuthService.ValidateAdminPermission(Request);
+            if (authResult.Exception != null)
+            {
+                return BadRequest(authResult.Exception.Message);
+            }
+
             var result = _habitatService.Delete(id);
             if(result.Exception == null)
             {
@@ -43,6 +54,11 @@ namespace DemoSpiritsAPI.Controllers
         [HttpPost(Name = "CreateHabitat")]
         public IActionResult Create([FromBody]CreateHabitatDTO createHabitatDTO)
         {
+            var authResult = _googleAuthService.ValidateAdminPermission(Request);
+            if (authResult.Exception != null)
+            {
+                return BadRequest(authResult.Exception.Message);
+            }
             var result = _habitatService.Create(createHabitatDTO);
             if(result.Exception == null)
             {
@@ -54,6 +70,11 @@ namespace DemoSpiritsAPI.Controllers
         [HttpPut(Name = "UpdateHabitat")]
         public IActionResult Update([FromBody] UpdateHabitatDTO updateHabitatDTO)
         {
+            var authResult = _googleAuthService.ValidateAdminPermission(Request);
+            if (authResult.Exception != null)
+            {
+                return BadRequest(authResult.Exception.Message);
+            }
             var result = _habitatService.Update(updateHabitatDTO);
             if(result.Exception == null)
             {
@@ -65,6 +86,11 @@ namespace DemoSpiritsAPI.Controllers
         [HttpPatch(Name = "SetupHabitatTestData")]
         public IActionResult SetupTestData()
         {
+            var authResult = _googleAuthService.ValidateAdminPermission(Request);
+            if (authResult.Exception != null)
+            {
+                return BadRequest(authResult.Exception.Message);
+            }
             var result = _habitatService.SetupTestData();
             if (result.Exception == null)
             {

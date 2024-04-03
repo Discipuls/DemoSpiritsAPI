@@ -3,6 +3,7 @@ using System;
 using DemoSpiritsAPI.EntiryFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -11,16 +12,33 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoSpiritsAPI.Migrations
 {
     [DbContext(typeof(MySQLContext))]
-    [Migration("20240309101612_initial")]
-    partial class initial
+    [Migration("20240409101429_images_to_db")]
+    partial class images_to_db
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("HabitatSpirit", b =>
+                {
+                    b.Property<int>("HabitatsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpiritsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("HabitatsId", "SpiritsId");
+
+                    b.HasIndex("SpiritsId");
+
+                    b.ToTable("HabitatSpirit");
+                });
 
             modelBuilder.Entity("SpiritsClassLibrary.Models.BorderPoint", b =>
                 {
@@ -28,14 +46,16 @@ namespace DemoSpiritsAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int?>("HabitatId")
                         .HasColumnType("int");
 
                     b.Property<double?>("Latitude")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("Longitude")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -50,11 +70,13 @@ namespace DemoSpiritsAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime?>("LastUpdated")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -67,11 +89,13 @@ namespace DemoSpiritsAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<double?>("Latitude")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double?>("Longitude")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<int>("SpiritId")
                         .HasColumnType("int");
@@ -90,23 +114,33 @@ namespace DemoSpiritsAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("CardImage")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("CardImageName")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Classification")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdated")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("MarkerImage")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("MarkerImageName")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -115,17 +149,17 @@ namespace DemoSpiritsAPI.Migrations
 
             modelBuilder.Entity("HabitatSpirit", b =>
                 {
-                    b.Property<int>("HabitatsId")
-                        .HasColumnType("int");
+                    b.HasOne("SpiritsClassLibrary.Models.Habitat", null)
+                        .WithMany()
+                        .HasForeignKey("HabitatsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("SpiritsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("HabitatsId", "SpiritsId");
-
-                    b.HasIndex("SpiritsId");
-
-                    b.ToTable("HabitatSpirit");
+                    b.HasOne("SpiritsClassLibrary.Models.Spirit", null)
+                        .WithMany()
+                        .HasForeignKey("SpiritsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SpiritsClassLibrary.Models.BorderPoint", b =>
@@ -146,21 +180,6 @@ namespace DemoSpiritsAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("spirit");
-                });
-
-            modelBuilder.Entity("HabitatSpirit", b =>
-                {
-                    b.HasOne("SpiritsClassLibrary.Models.Habitat", null)
-                        .WithMany()
-                        .HasForeignKey("HabitatsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SpiritsClassLibrary.Models.Spirit", null)
-                        .WithMany()
-                        .HasForeignKey("SpiritsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SpiritsClassLibrary.Models.Habitat", b =>

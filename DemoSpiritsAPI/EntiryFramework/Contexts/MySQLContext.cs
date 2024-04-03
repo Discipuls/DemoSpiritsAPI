@@ -5,18 +5,21 @@ namespace DemoSpiritsAPI.EntiryFramework.Contexts
 {
     public class MySQLContext : DbContext
     {
+        private IConfiguration _configuration;
         public DbSet<Spirit> Spirits { get; set; }
         public DbSet<Habitat> Habitats { get; set; }
         public DbSet<MarkerPoint> MarkerPoints { get; set; }
         public DbSet<BorderPoint> BorderPoints { get; set; }
 
-        public MySQLContext() {
+        public MySQLContext(IConfiguration Configuration) {
+            _configuration = Configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=!@#Palych;database=spirits",
-                new MySqlServerVersion(new Version(8, 0, 11)));
+            // optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=!@#Palych;database=spirits",
+            optionsBuilder.UseSqlServer(_configuration["ConnectionStrings:SqlServer"]);
+          //      new MySqlServerVersion(new Version(8, 0, 11)));
             //TODO move configuration to json
         }
 
