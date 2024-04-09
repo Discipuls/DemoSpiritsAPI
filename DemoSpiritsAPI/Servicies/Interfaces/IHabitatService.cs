@@ -1,5 +1,4 @@
 ﻿using SpiritsClassLibrary.DTOs.HabitatDTOs;
-using SpiritsClassLibrary.Models;
 
 namespace DemoSpiritsAPI.Servicies.Interfaces
 {

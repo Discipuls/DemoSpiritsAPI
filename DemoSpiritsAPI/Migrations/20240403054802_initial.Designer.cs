@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DemoSpiritsAPI.Migrations
 {
-    [DbContext(typeof(MySQLContext))]
+    [DbContext(typeof(SQLServerContext))]
     [Migration("20240403054802_initial")]
     partial class initial
     {

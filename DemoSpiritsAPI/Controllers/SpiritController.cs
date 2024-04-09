@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using DemoSpiritsAPI.AutoMappers;
-using SpiritsClassLibrary.DTOs.SpiritDTOs;
-using SpiritsClassLibrary.Models;
-using DemoSpiritsAPI.Servicies.Interfaces;
+﻿using DemoSpiritsAPI.Servicies.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using DemoSpiritsAPI.Servicies;
+using SpiritsClassLibrary.DTOs.SpiritDTOs;
 
 namespace DemoSpiritsAPI.Controllers
 {
@@ -97,7 +93,7 @@ namespace DemoSpiritsAPI.Controllers
                     message += ex.Message + "\n";
                     ex = ex.InnerException;
                 }
-                return BadRequest(/*authResult.Exception.Message*/message);
+                return BadRequest(message);
             }
             var result =  _spiritService.Create(createSpiritDTO);
             if(result.Exception == null)

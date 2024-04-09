@@ -1,23 +1,19 @@
-﻿using DemoSpiritsAPI.EntiryFramework.Contexts;
-using SpiritsClassLibrary.Models;
+﻿using AutoMapper;
+using DemoSpiritsAPI.EntiryFramework.Contexts;
 using DemoSpiritsAPI.Servicies.Interfaces;
-/*using System.Drawing.Imaging;
-using System.Drawing;*/
-using System.IO;
-using AutoMapper;
-using SpiritsClassLibrary.DTOs.SpiritDTOs;
 using Microsoft.EntityFrameworkCore;
-using SpiritsClassLibrary.DTOs.HabitatDTOs;
-using SpiritsClassLibrary.DTOs.GeoPointDTOs;
 using SixLabors.ImageSharp;
+using SpiritsClassLibrary.DTOs.GeoPointDTOs;
+using SpiritsClassLibrary.DTOs.SpiritDTOs;
+using SpiritsClassLibrary.Models;
 
 namespace DemoSpiritsAPI.Servicies
 {
     public class SpiritService : ISpiritService
     {
-        private MySQLContext _dbContext;
+        private SQLServerContext _dbContext;
         private IMapper _mapper;
-        public SpiritService(MySQLContext dbContext, IMapper mapper)
+        public SpiritService(SQLServerContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;

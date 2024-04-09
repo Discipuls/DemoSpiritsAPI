@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DemoSpiritsAPI.Migrations
 {
-    [DbContext(typeof(MySQLContext))]
+    [DbContext(typeof(SQLServerContext))]
     partial class MySQLContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

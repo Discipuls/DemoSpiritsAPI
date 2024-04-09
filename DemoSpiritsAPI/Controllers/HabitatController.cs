@@ -1,10 +1,6 @@
-﻿
-using SpiritsClassLibrary.DTOs.HabitatDTOs;
-using SpiritsClassLibrary.Models;
-using DemoSpiritsAPI.Servicies.Interfaces;
+﻿using DemoSpiritsAPI.Servicies.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Google.Apis.Auth;
-using Newtonsoft.Json.Linq;
+using SpiritsClassLibrary.DTOs.HabitatDTOs;
 
 namespace DemoSpiritsAPI.Controllers
 {

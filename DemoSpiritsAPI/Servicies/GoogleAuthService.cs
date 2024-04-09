@@ -1,7 +1,5 @@
-﻿using Azure.Core;
-using DemoSpiritsAPI.Servicies.Interfaces;
+﻿using DemoSpiritsAPI.Servicies.Interfaces;
 using Google.Apis.Auth;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DemoSpiritsAPI.Servicies
 {

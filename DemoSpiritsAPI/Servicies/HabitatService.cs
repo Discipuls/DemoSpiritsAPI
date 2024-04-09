@@ -11,9 +11,9 @@ namespace DemoSpiritsAPI.Servicies
 {
     public class HabitatService : IHabitatService
     {
-        private MySQLContext _dbContext;
+        private SQLServerContext _dbContext;
         private IMapper _mapper;
-        public HabitatService(MySQLContext mySQLContext, IMapper mapper) {
+        public HabitatService(SQLServerContext mySQLContext, IMapper mapper) {
             _dbContext = mySQLContext;
             _mapper = mapper;
         }

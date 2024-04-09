@@ -15,7 +15,7 @@ namespace DemoSpiritsAPI.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private MySQLContext mySQLContext;
+        private SQLServerContext mySQLContext;
 
         private static readonly string[] Summaries = new[]
         {
@@ -24,7 +24,7 @@ namespace DemoSpiritsAPI.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, MySQLContext context)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, SQLServerContext context)
         {
             _logger = logger;
             mySQLContext = context;
